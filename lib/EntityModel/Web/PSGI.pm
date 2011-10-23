@@ -8,7 +8,7 @@ use EntityModel::Web::Context;
 use EntityModel::Web::Request;
 use EntityModel::Web::Response;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 =head1 NAME
 
@@ -16,7 +16,7 @@ EntityModel::Web::PSGI - serve L<EntityModel::Web> definitions through PSGI
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -85,7 +85,7 @@ sub run_psgi {
 
 # Populate initial request values from $env
 	my $req = EntityModel::Web::Request->new(
-		method => lc $env->{REQUEST_METHOD},
+		method => lc($env->{REQUEST_METHOD} || ''),
 		path => $env->{REQUEST_URI},
 		version => $env->{SERVER_PROTOCOL},
 		host => $env->{SERVER_NAME},

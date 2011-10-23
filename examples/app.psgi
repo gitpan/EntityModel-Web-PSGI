@@ -23,4 +23,9 @@ my $tmpl = EntityModel::Template->new(
 $tmpl->process_template(\qq{[% PROCESS Main.tt2 %]});
 $app->template($tmpl);
 $app->web($web);
-sub { $app->run_psgi(@_) };
+sub {
+# Ignore favicon requests
+	my $env = shift;
+	return [ 404, [], ['Not found'] ] if $env->{REQUEST_URI} eq '/favicon.ico';
+	$app->run_psgi($env, @_);
+};
